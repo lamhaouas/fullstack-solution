@@ -1,6 +1,15 @@
 const http = require('http');
 const app = require('./app');
+const dbconnection = require('./config/db')
 
+//db connection
+dbconnection.connect(function (err) {
+    if (err) {
+        return console.error('error: ' + err.message);
+    } else {
+        console.log('connected to mysql db')
+    }
+})
 const normalizePort = val => {
     const port = parseInt(val, 10);
 
@@ -41,5 +50,7 @@ server.on('listening', () => {
     const address = server.address();
     const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
     console.log('Listening on ' + bind);
-});
+
+})
+
 server.listen(port)
