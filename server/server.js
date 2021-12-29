@@ -3,13 +3,12 @@ const app = require('./app');
 const dbconnection = require('./config/db')
 
 //db connection
-dbconnection.connect(function (err) {
-    if (err) {
-        return console.error('error: ' + err.message);
-    } else {
-        console.log('connected to mysql db')
-    }
-})
+try {
+    dbconnection.authenticate();
+    console.log('Connected to db');
+} catch (error) {
+    console.error('Unable to connect to db:', error);
+}
 const normalizePort = val => {
     const port = parseInt(val, 10);
 
