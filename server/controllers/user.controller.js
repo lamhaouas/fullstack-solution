@@ -1,9 +1,9 @@
 const models = require('../models');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const db = require('../config/db');
 
-// register new user function
+
+// register new user 
 
 exports.signUp = (req, res) => {
 
@@ -54,7 +54,7 @@ exports.signUp = (req, res) => {
         })
     });
 }
-// user login function
+//log in a user
 exports.logIn = (req, res) => {
     models.users.findOne({
         where: {
@@ -91,3 +91,18 @@ exports.logIn = (req, res) => {
         });
     });
 }
+// update user
+exports.updateUser = (req, res) => {
+    const id = req.params.id;
+
+};
+// get a user
+exports.getOneUser = (req, res) => {
+    const id = req.params.id;
+
+};
+// log out a user
+exports.logOut = (req, res) => {
+
+
+};

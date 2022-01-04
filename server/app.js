@@ -9,5 +9,5 @@ app.use(bodyParser.json())
 app.use(express.json())
 // routes
 app.use('/user', userRoutes)
-app.use('/', postRoutes)
+app.use('/posts', postRoutes)
 module.exports = app;
