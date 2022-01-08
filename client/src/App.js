@@ -14,9 +14,10 @@ function App() {
        <main className='flex justify-center p-2'>
          <Routes>
            <Route path='/' element={<Home/>} />
-           <Route path='/notfound' element={<NotFound/>} />
+           <Route path='/*' element={<NotFound/>} />
            <Route path='/signup' element={<SignUp/>} />
            <Route path='/signin' element={<SignIn/>} />
+           <Route path='/profile' element={<Profile/>} />
          </Routes>
        </main>
        <Footer/>
