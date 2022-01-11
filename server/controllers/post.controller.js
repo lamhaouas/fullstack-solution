@@ -1,3 +1,7 @@
+const {
+    type
+} = require('express/lib/response');
+const Validator = require('fastest-validator');
 const models = require('../models');
 
 // create posts
@@ -7,6 +11,29 @@ exports.createPost = (req, res) => {
         content: req.body.content,
         userId: req.body.userId
     }
+    //data validation
+    const schema = {
+        multimediaUrl: {
+            type: 'string',
+            optional: false,
+            max: '200'
+        },
+        content: {
+            type: 'string',
+            optional: false,
+            max: '500',
+        }
+    }
+
+    const validation = new Validator();
+    const responceValidation = validation.validate(post, schema);
+    if (responceValidation !== true) {
+        return res.status(400).json({
+            message: 'Validation failed',
+            errors: responceValidation
+        })
+    }
+    // save posts to db
     models.posts.create(post).then(result => {
         res.status(201).json({
             message: 'Post created!',
@@ -49,6 +76,29 @@ exports.updatePost = (req, res) => {
         content: req.body.content,
     }
     const userId = 1;
+    //data validation
+    const schema = {
+        multimediaUrl: {
+            type: 'string',
+            optional: false,
+            max: '200'
+        },
+        content: {
+            type: 'string',
+            optional: false,
+            max: '500',
+        }
+    }
+
+    const validation = new Validator();
+    const responceValidation = validation.validate(updatedPost, schema);
+    if (responceValidation !== true) {
+        return res.status(400).json({
+            message: 'Validation failed',
+            errors: responceValidation
+        })
+    }
+    // save to db
     models.posts.update(updatedPost, {
         where: {
             id: id,
