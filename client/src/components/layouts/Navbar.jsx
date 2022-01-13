@@ -10,8 +10,8 @@ function Navbar() {
                </div>
                <div className="flex-1 px-2 mx-2">
                    <div className="flex justify-end">
-                       <Link to="/signin" className='btn btn-ghost btn-sm rounded-btn'>Log In</Link>
-                       <Link to="/signup" className='btn btn-ghost btn-sm rounded-btn'>Sign Up</Link>
+                       <Link to="user/login" className='btn btn-ghost btn-sm rounded-btn'>Log In</Link>
+                       <Link to="user/signup" className='btn btn-ghost btn-sm rounded-btn'>Sign Up</Link>
 
                    </div>
                </div>
