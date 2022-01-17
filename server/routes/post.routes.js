@@ -1,10 +1,11 @@
 const router = require('express').Router();
-const userController = require('../controllers/post.controller')
+const userController = require('../controllers/post.controller');
+const verifyToken = require('../verify-token');
 
-router.post('/', userController.createPost);
+router.post('/', verifyToken, userController.createPost);
 router.get('/', userController.getAllPosts);
 router.get('/:id', userController.getPost);
-router.patch('/:id', userController.updatePost);
-router.delete('/:id', userController.deletePost);
+router.patch('/:id', verifyToken, userController.updatePost);
+router.delete('/:id', verifyToken, userController.deletePost);
 
 module.exports = router;

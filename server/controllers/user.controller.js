@@ -23,23 +23,25 @@ exports.signUp = (req, res) => {
             const saltRounds = 10;
             const password = req.body.password;
             bcrypt.genSalt(saltRounds, function (err, salt) {
-                const hashPassword = bcrypt.hash(password, salt, function (err, hash) {
+                bcrypt.hash(password, salt, function (err, hash) {
                     const user = {
-                        firstName: req.body.firstname,
-                        lastName: req.body.lastname,
+
                         email: req.body.email,
-                        userName: req.body.username,
+                        username: req.body.username,
                         password: hash,
                     }
 
                     models.users.create(user).then(result => {
                         res.status(201).json({
                             message: 'Account created successfully',
+                            result:user
                         });
                     }).catch(error => {
                         res.status(500).json({
 
-                            message: 'something went wrong!'
+                            message: 'something went wrong!',
+
+                            error: error
                         });
                     });
 
@@ -51,6 +53,7 @@ exports.signUp = (req, res) => {
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong!",
+
         })
     });
 }
@@ -62,8 +65,9 @@ exports.logIn = (req, res) => {
         }
     }).then(result => {
         if (result === null) {
-            res.status(401).json({
-                message: "Wrong credentials",
+            res.json({
+                message: "Please verify you credentials",
+                loggedIn : false
             });
         } else {
             bcrypt.compare(req.body.password, result.password, function (err, result) {
@@ -75,12 +79,14 @@ exports.logIn = (req, res) => {
                     }, process.env.JWT_KEY, function (err, token) {
                         res.status(200).json({
                             message: "Authenticated",
-                            token: token
+                            token: token,
+                            loggedIn: true
                         });
                     });
                 } else {
-                    res.status(401).json({
+                    res.json({
                         message: "Wrong credentials",
+                        loggedIn: false
                     });
                 }
             });
@@ -88,21 +94,7 @@ exports.logIn = (req, res) => {
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong!",
+           
         });
     });
 }
-// update user
-exports.updateUser = (req, res) => {
-    const id = req.params.id;
-
-};
-// get a user
-exports.getOneUser = (req, res) => {
-    const id = req.params.id;
-
-};
-// log out a user
-exports.logOut = (req, res) => {
-
-
-};

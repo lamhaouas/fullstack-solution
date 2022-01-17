@@ -1,16 +1,23 @@
 import { useState } from 'react';
 import Axios from 'axios'
 function SignIn() {
-  //create email and password states
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  // states
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const[errorMessage, setErrorMessage] = useState('')
   // register the user
   const logIn = () => {
     Axios.post("http://localhost:3000/user/login", {
       email: email,
       password: password,
     }).then((response) => {
-      console.log(response);
+      
+      if(response.data.loggedIn){
+localStorage.setItem('loggedIn', true);
+localStorage.setItem('token', response.data.token)
+      }else{
+     setErrorMessage(response.data.message)
+      }
     });
   }
     return (
@@ -31,7 +38,8 @@ function SignIn() {
             setPassword(event.target.value)
           }}/>
         </div>
-        <button className="btn btn-secondary mt-6 w-72"  onClick={logIn}>Submit</button> 
+        <button className="btn btn-secondary mt-6 w-72"  onClick={logIn}>Submit</button>
+        <p className='text-error'>{errorMessage}</p>
      </div>
        
      
