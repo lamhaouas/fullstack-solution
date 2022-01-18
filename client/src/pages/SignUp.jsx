@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import Axios from 'axios'
+import Axios from 'axios';
+
 function SignUp() {
   //create email username and password states
   const [email, setEmail] = useState("");
@@ -14,7 +15,6 @@ function SignUp() {
       password: password,
     }).then((response) => {
     
-      console.log(response);
     });
   }
 

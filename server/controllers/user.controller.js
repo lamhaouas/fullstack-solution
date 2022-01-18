@@ -14,9 +14,10 @@ exports.signUp = (req, res) => {
         }
     }).then(result => {
         if (result) {
-            res.status(409).json({
+            res.json({
 
-                message: 'Email already used'
+                message: 'Email already used',
+                error: err
             });
         } else {
             // hash the password
@@ -51,7 +52,7 @@ exports.signUp = (req, res) => {
 
         }
     }).catch(error => {
-        res.status(500).json({
+        res.json({
             message: "Something went wrong!",
 
         })
@@ -67,7 +68,7 @@ exports.logIn = (req, res) => {
         if (result === null) {
             res.json({
                 message: "Please verify you credentials",
-                loggedIn : false
+                SignIn : false
             });
         } else {
             bcrypt.compare(req.body.password, result.password, function (err, result) {
@@ -80,13 +81,13 @@ exports.logIn = (req, res) => {
                         res.status(200).json({
                             message: "Authenticated",
                             token: token,
-                            loggedIn: true
+                            SignIn: true
                         });
                     });
                 } else {
                     res.json({
                         message: "Wrong credentials",
-                        loggedIn: false
+                        SignIn: false
                     });
                 }
             });

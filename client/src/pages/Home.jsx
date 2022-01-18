@@ -1,7 +1,8 @@
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 
 function Home() {
-    return (
+
+   return (
         
     <div>
         <div className='card'>

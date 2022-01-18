@@ -1,23 +1,20 @@
 import { useState } from 'react';
-import Axios from 'axios'
+import Axios from 'axios';
+import {useNavigate} from 'react-router-dom';
+
 function SignIn() {
   // states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const[errorMessage, setErrorMessage] = useState('')
+  const[errorMessage, setErrorMessage] = useState('');
+  let navigate = useNavigate();
   // register the user
   const logIn = () => {
     Axios.post("http://localhost:3000/user/login", {
       email: email,
       password: password,
     }).then((response) => {
-      
-      if(response.data.loggedIn){
-localStorage.setItem('loggedIn', true);
-localStorage.setItem('token', response.data.token)
-      }else{
-     setErrorMessage(response.data.message)
-      }
+    
     });
   }
     return (
