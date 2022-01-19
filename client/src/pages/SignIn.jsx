@@ -1,13 +1,12 @@
 import { useState } from 'react';
 import Axios from 'axios';
-import {useNavigate} from 'react-router-dom';
+
 
 function SignIn() {
   // states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const[errorMessage, setErrorMessage] = useState('');
-  let navigate = useNavigate();
+  
   // register the user
   const logIn = () => {
     Axios.post("http://localhost:3000/user/login", {
@@ -36,7 +35,7 @@ function SignIn() {
           }}/>
         </div>
         <button className="btn btn-secondary mt-6 w-72"  onClick={logIn}>Submit</button>
-        <p className='text-error'>{errorMessage}</p>
+        
      </div>
        
      
