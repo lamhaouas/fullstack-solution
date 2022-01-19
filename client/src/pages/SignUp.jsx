@@ -6,6 +6,7 @@ function SignUp() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage]= useState("")
   // register the user
   const signUp = () => {
 
@@ -14,7 +15,10 @@ function SignUp() {
       username: username,
       password: password,
     }).then((response) => {
-    
+    if(response){
+      console.log(response.data.message)
+      setMessage(response.data.message)
+    }
     });
   }
 
@@ -45,7 +49,8 @@ function SignUp() {
             setPassword(event.target.value)
           }}/>
       </div>
-      <button  className="btn btn-secondary mt-6 w-72"  onClick={signUp}>Submit</button> 
+      <button  className="btn btn-secondary mt-6 w-72"  onClick={signUp}>Submit</button>
+      <p className='p-2'>{message}</p> 
   </div>
     )
 }

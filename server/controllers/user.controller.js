@@ -3,44 +3,18 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const Validator = require('fastest-validator');
 
-
-
 // register new user 
-
 exports.signUp = (req, res) => {
-    //data validation
-    const schema = {
-        email: {
-            type: 'email',
-            optional: false,
-            max: '200'
-        },
-        username: {
-            type: 'string',
-            optional: false,
-            min: '6',
-            max: '500',
-        },
-        password: {
-            type: 'string',
-            optional: false,
-            min: '6',
-            max: '18'
-        },
-    }
-    const validation = new Validator();
-
-
+   
     //check if the user exist in db
     models.users.findOne({
         where: {
             email: req.body.email
         }
     }).then(result => {
-        if (result === true) {
+        if (result) {
             res.json({
                 message: 'Email already used',
-                error: err
             });
         } else {
             // hash the password
@@ -54,10 +28,29 @@ exports.signUp = (req, res) => {
                         username: req.body.username,
                         password: hash,
                     }
+                    //validation
+                    const schema = {
+                        email: {
+                            type: 'email',
+                            optional: false,
+                            max: '200'
+                        },
+                        username: {
+                            type: 'string',
+                            optional: false,
+                            max: '500',
+                        },
+                        password: {
+                            type: 'string',
+                            optional: false,
+                        },
+                    }
+                   
+                    const validation = new Validator();
                     const responceValidation = validation.validate(user, schema);
                     if (responceValidation !== true) {
-                        return res.status(400).json({
-                            message: 'Validation failed',
+                        return res.json({
+                            message: 'Please enter a valid Email, Username and Password',
                             errors: responceValidation
                         })
                     }
@@ -65,14 +58,10 @@ exports.signUp = (req, res) => {
                     models.users.create(user).then(result => {
                         res.status(201).json({
                             message: 'Account created successfully',
-                            result: user
                         });
                     }).catch(error => {
                         res.status(500).json({
-
                             message: 'something went wrong!',
-
-                            error: error
                         });
                     });
 
@@ -88,6 +77,7 @@ exports.signUp = (req, res) => {
         })
     });
 }
+
 //log in a user
 exports.logIn = (req, res) => {
     const user = {
@@ -115,8 +105,8 @@ exports.logIn = (req, res) => {
     }).then(result => {
         if (result === null) {
             res.json({
-                message: "Please verify you credentials",
-                SignIn: false
+                message: "Please verify your Email",
+                signIn: false
             });
         } else {
             bcrypt.compare(req.body.password, result.password, function (err, result) {
@@ -129,13 +119,13 @@ exports.logIn = (req, res) => {
                         res.status(200).json({
                             message: "Authenticated",
                             token: token,
-                            SignIn: true
+                            signIn: true
                         });
                     });
                 } else {
                     res.json({
                         message: "Wrong credentials",
-                        SignIn: false
+                        signIn: false
                     });
                 }
             });
@@ -143,6 +133,7 @@ exports.logIn = (req, res) => {
     }).catch(error => {
         res.status(500).json({
             message: "Something went wrong!",
+            signIn: false
 
         });
     });

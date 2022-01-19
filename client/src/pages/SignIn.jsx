@@ -6,14 +6,20 @@ function SignIn() {
   // states
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const[errorMessage , setErrorMessage] = useState("");
   // register the user
   const logIn = () => {
     Axios.post("http://localhost:3000/user/login", {
       email: email,
       password: password,
     }).then((response) => {
-    
+    if(response.data.signIn){
+     localStorage.setItem('signIn', true);
+     localStorage.setItem('token' , response.data.token)
+    } else{
+      console.log(response.data.message);
+      setErrorMessage(response.data.message)
+    }
     });
   }
     return (
@@ -35,7 +41,7 @@ function SignIn() {
           }}/>
         </div>
         <button className="btn btn-secondary mt-6 w-72"  onClick={logIn}>Submit</button>
-        
+        <p className='text-error p-2'>{errorMessage}</p>
      </div>
        
      
