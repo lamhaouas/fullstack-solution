@@ -11,7 +11,7 @@ const dbconnection = new Sequelize({
     database: process.env.db,
     define: {
         timestamps: false,
-        underscored: false,
+       
     },
     logging: false
 

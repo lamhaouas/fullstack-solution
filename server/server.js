@@ -9,7 +9,7 @@ try {
 } catch (error) {
     console.error('Unable to connect to db:', error);
 }
-const port = 3000
+const port = 3001
 
 app.listen(port, () => {
   console.log(`listening at http://localhost:${port}`)

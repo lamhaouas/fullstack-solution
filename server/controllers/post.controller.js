@@ -7,9 +7,9 @@ const models = require('../models');
 // create posts
 exports.createPost = (req, res) => {
     const post = {
-        multimediaUrl: req.body.multimediaUrl,
+        multimediaUrl: req.body.file,
         content: req.body.content,
-        userId: req.body.userId
+       
     }
     //data validation
     const schema = {

@@ -1,21 +1,28 @@
 import { useState } from 'react';
 import Axios from 'axios';
-
+import { useNavigate } from 'react-router-dom'
 
 function SignIn() {
   // states
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const[errorMessage , setErrorMessage] = useState("");
+  let navigate = useNavigate()
   // register the user
   const logIn = () => {
-    Axios.post("http://localhost:3000/user/login", {
-      email: email,
+    
+    navigate('/feeds');
+    Axios.post("http://localhost:3001/user/login", {
+      username: username,
       password: password,
     }).then((response) => {
     if(response.data.signIn){
      localStorage.setItem('signIn', true);
      localStorage.setItem('token' , response.data.token)
+     localStorage.setItem('username', response.data.username)
+    window.location.reload()
+    
+   
     } else{
       console.log(response.data.message);
       setErrorMessage(response.data.message)
@@ -26,10 +33,10 @@ function SignIn() {
     <div className=" card bg-base-200 m-2 p-4">
         <div className="form-control">
             <label className="label">
-              <span className="label-text">Email</span>
+              <span className="label-text">Username</span>
             </label> 
-            <input type="text" placeholder="email" className="input input-bordered w-72" onChange={(event) =>{
-            setEmail(event.target.value)
+            <input type="text" placeholder="username" className="input input-bordered w-72" onChange={(event) =>{
+            setUsername(event.target.value)
           }}/>
         </div> 
         <div className="form-control">

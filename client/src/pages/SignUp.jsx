@@ -10,7 +10,7 @@ function SignUp() {
   // register the user
   const signUp = () => {
 
-    Axios.post("http://localhost:3000/user/signup", {
+    Axios.post("http://localhost:3001/user/signup", {
       email: email,
       username: username,
       password: password,

@@ -5,7 +5,7 @@ const Validator = require('fastest-validator');
 
 // register new user 
 exports.signUp = (req, res) => {
-   
+
     //check if the user exist in db
     models.users.findOne({
         where: {
@@ -45,7 +45,7 @@ exports.signUp = (req, res) => {
                             optional: false,
                         },
                     }
-                   
+
                     const validation = new Validator();
                     const responceValidation = validation.validate(user, schema);
                     if (responceValidation !== true) {
@@ -81,45 +81,35 @@ exports.signUp = (req, res) => {
 //log in a user
 exports.logIn = (req, res) => {
     const user = {
-        email: req.body.email
+        username: req.body.username,
+
     };
-    const schema = {
-        email: {
-            type: 'email',
-            optional: false,
-            max: '200'
-        },
-    }
-    const validation = new Validator();
-    const responceValidation = validation.validate(user, schema);
-    if (responceValidation !== true) {
-        return res.status(400).json({
-            message: 'Validation failed',
-            errors: responceValidation
-        })
-    }
     models.users.findOne({
         where: {
-            email: req.body.email
+            username: req.body.username
         }
     }).then(result => {
         if (result === null) {
             res.json({
-                message: "Please verify your Email",
+                message: "Please verify your Username",
                 signIn: false
             });
         } else {
+            console.log
             bcrypt.compare(req.body.password, result.password, function (err, result) {
                 if (result) {
                     //assign a token
                     const token = jwt.sign({
-                        email: result.email,
-                        userId: result.id
+                        username: result.username,
                     }, process.env.JWT_KEY, function (err, token) {
+
                         res.status(200).json({
+
                             message: "Authenticated",
                             token: token,
+                            username: user.username,
                             signIn: true
+
                         });
                     });
                 } else {
@@ -137,4 +127,16 @@ exports.logIn = (req, res) => {
 
         });
     });
+}
+
+// Account deletion
+exports.deleteUser = (req, res) => {
+    const {
+        username
+    } = req.body.username;
+    models.users.destroy({
+        where: {
+            username: req.body.username
+        }
+    }).then().catch()
 }

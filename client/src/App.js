@@ -6,6 +6,7 @@ import SignUp from './pages/SignUp';
 import NotFound from './pages/NotFound';
 import Navbar from './components/layouts/Navbar';
 import Footer from './components/layouts/Footer';
+import Feeds from './components/layouts/Feeds';
 function App() {
   return (
     <Router>
@@ -18,6 +19,7 @@ function App() {
            <Route path='/user/signup' element={<SignUp/>} />
            <Route path='/user/login' element={<SignIn/>} />
            <Route path='/profile' element={<Profile/>} />
+           <Route path='/feeds' element={<Feeds/>} />
          </Routes>
        </main>
        <Footer/>

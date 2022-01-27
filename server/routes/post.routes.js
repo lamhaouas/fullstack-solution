@@ -3,10 +3,10 @@ const userController = require('../controllers/post.controller');
 const verifyToken = require('../verify-token');
 const multer = require('../files-upload');
 
-router.post('/', verifyToken, userController.createPost);
+router.post('/', userController.createPost);
 router.get('/', userController.getAllPosts);
 router.get('/:id', userController.getPost);
-router.patch('/:id', verifyToken, userController.updatePost);
-router.delete('/:id', verifyToken, userController.deletePost);
+router.patch('/:id',  userController.updatePost);
+router.delete('/:id',  userController.deletePost);
 
 module.exports = router;
