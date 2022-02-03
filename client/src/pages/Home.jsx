@@ -1,6 +1,11 @@
-import {Link} from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 
 function Home() {
+  let navigate = useNavigate()
+  if(localStorage.getItem('username')){
+    navigate('/feeds');
+  }
+  else{navigate('/')}
 
    return (
         

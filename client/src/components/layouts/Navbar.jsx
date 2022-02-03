@@ -9,6 +9,7 @@ function Navbar() {
     useEffect(()=>{
         setSignIn(localStorage.getItem('signIn'))
     },[localStorage.getItem('signIn')]);
+   
     return (
        <nav className="navbar drop-shadow-xl bg-primary">
            <div className="container mx-auto">
@@ -20,7 +21,7 @@ function Navbar() {
                        <div className="flex justify-end">
                         <Link to="/feeds" className='btn btn-ghost btn-sm rounded-btn'>Feeds</Link>
                         <Link to="/profile" className='btn btn-ghost btn-sm rounded-btn'>My Profile</Link>
-                        <Link to="/signup" className='btn btn-ghost btn-sm rounded-btn'>logout</Link>
+                        <Link to="/signup" className='btn btn-ghost btn-sm rounded-btn' >logout</Link>
                     </div>
                     
                    ) : (

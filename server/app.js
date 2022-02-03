@@ -8,6 +8,7 @@ const app = express();
 // middlewares
 app.use(cors());
 app.use(bodyParser.json());
+
 app.use(express.json());
 // routes
 app.use('/user', userRoutes);

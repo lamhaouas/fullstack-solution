@@ -3,9 +3,9 @@ const userController = require('../controllers/post.controller');
 const verifyToken = require('../verify-token');
 const multer = require('../files-upload');
 
-router.post('/', userController.createPost);
+router.post('/',multer, userController.createPost);
 router.get('/', userController.getAllPosts);
-router.get('/:id', userController.getPost);
+// router.get('/:id', userController.getPost);
 router.patch('/:id',  userController.updatePost);
 router.delete('/:id',  userController.deletePost);
 
