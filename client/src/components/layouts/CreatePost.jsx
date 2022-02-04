@@ -5,7 +5,7 @@ import axios from 'axios';
 function Create () {
     // states
 const[content, setContent] = useState({});
-const[file, setFile] = useState()
+const[file, setFile] = useState([])
 
 const upload = async (e) => {
   e.preventDefault();
@@ -29,10 +29,10 @@ const res = await axios.post('http://localhost:3001/posts',formData, config);
 }
   return <div>
 
-      <div className='card w-full '>
+      <div className='card border-2'>
         <div className="card-body">
           <label className="card-title">Create a post</label>
-          <input type="text" placeholder="Type here" className="textarea m-2 h-12 textarea-bordered"
+          <input type="text" placeholder="Type here" className="textarea m-2 textarea-bordered"
           onChange={event=> {
             const {value} = event.target;
             setContent(value);

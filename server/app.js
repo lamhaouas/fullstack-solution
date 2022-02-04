@@ -1,4 +1,5 @@
 const express = require('express');
+let path = require("path");
 const bodyParser = require('body-parser');
 const userRoutes = require('./routes/user.route');
 const postRoutes = require('./routes/post.routes');
@@ -8,9 +9,10 @@ const app = express();
 // middlewares
 app.use(cors());
 app.use(bodyParser.json());
-
 app.use(express.json());
 // routes
 app.use('/user', userRoutes);
 app.use('/posts', postRoutes);
+app.use('/uploads', express.static(path.join(__dirname, "uploads")));
+
 module.exports = app;

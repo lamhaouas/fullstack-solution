@@ -11,16 +11,17 @@ function SignIn() {
   // register the user
   const logIn = () => {
     
-    navigate('/feeds');
+  
     Axios.post("http://localhost:3001/user/login", {
       username: username,
       password: password,
     }).then((response) => {
     if(response.data.signIn){
+   
      localStorage.setItem('signIn', true);
      localStorage.setItem('token' , response.data.token)
      localStorage.setItem('username', response.data.username)
-     
+     navigate('/feeds');
     } else{
       console.log(response.data.message);
       setErrorMessage(response.data.message)

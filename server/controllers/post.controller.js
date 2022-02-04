@@ -1,17 +1,13 @@
-const {
-    type
-} = require('express/lib/response');
 const Validator = require('fastest-validator');
 const models = require('../models');
+const path = require('path');
 
 // create posts
 exports.createPost = (req, res) => {
-    
-
-    const url = req.protocol + '://' + req.get('host');
+ 
     const post = {
         content: req.body.content,
-        multimediaUrl: url + '/uploads/' + req.file.originalname,
+        multimediaUrl:req.file.path,
         username: req.body.username
        
     }
@@ -25,7 +21,7 @@ exports.createPost = (req, res) => {
         },
         content: {
             type: 'string',
-            optional: true,
+            optional: false,
             max: '500',
         },
         username:{
