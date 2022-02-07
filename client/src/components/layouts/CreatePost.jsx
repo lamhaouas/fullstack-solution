@@ -26,6 +26,7 @@ const res = await axios.post('http://localhost:3001/posts',formData, config);
  console.log(err)
 
 }
+window.location.reload()
 }
   return <div>
 

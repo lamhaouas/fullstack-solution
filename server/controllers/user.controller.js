@@ -131,12 +131,18 @@ exports.logIn = (req, res) => {
 
 // Account deletion
 exports.deleteUser = (req, res) => {
-    const {
-        username
-    } = req.body.username;
+    const user = {
+        username: req.body.username,
+    };
     models.users.destroy({
         where: {
             username: req.body.username
         }
-    }).then().catch()
+    }).then(
+        res.json({
+            message: 'user deleted',
+        })
+    ).catch(err => {
+        console.log(err)
+    })
 }

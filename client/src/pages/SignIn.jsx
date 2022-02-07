@@ -6,12 +6,10 @@ function SignIn() {
   // states
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const[errorMessage , setErrorMessage] = useState("");
+  const[errorMessage , setErrorMessage] = useState('');
   let navigate = useNavigate()
   // register the user
   const logIn = () => {
-    
-  
     Axios.post("http://localhost:3001/user/login", {
       username: username,
       password: password,
@@ -21,8 +19,11 @@ function SignIn() {
      localStorage.setItem('signIn', true);
      localStorage.setItem('token' , response.data.token)
      localStorage.setItem('username', response.data.username)
-     navigate('/feeds');
+     navigate('/feeds')
+     window.location.reload()
+
     } else{
+      
       console.log(response.data.message);
       setErrorMessage(response.data.message)
     }

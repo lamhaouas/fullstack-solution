@@ -1,19 +1,23 @@
-import axios from 'axios';
-import React, { useState, useEffect }  from 'react';
 import Create from './CreatePost';
 import Posts from './Posts';
+import { useNavigate } from 'react-router-dom'
+import SignIn from '../../pages/SignIn';
 function Feeds() {
+  
 
   return (
-<>
-  <div>
-    <Create/>
-    <Posts/>
+    <>
+      <div>
+        <Create/>
+    
+        <Posts/>
+    
+      </div>
+    </>
+      
+     
+  )
+  }
 
-  </div>
-</>
-  );
- 
-}
 
 export default Feeds;

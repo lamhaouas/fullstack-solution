@@ -3,11 +3,11 @@ import {Link} from 'react-router-dom';
 
 const Logo = require('../../images/icon-left-font-monochrome-white.png')
 
-
 function Navbar() {
-    const [signIn, setSignIn] = useState('');
+    const [signIn, setSignIn] = useState(true);
     useEffect(()=>{
-        setSignIn(localStorage.getItem('signIn'))
+        setSignIn(localStorage.getItem('signIn'));
+      
     },[localStorage.getItem('signIn')]);
    
     return (

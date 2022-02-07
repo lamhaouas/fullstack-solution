@@ -4,29 +4,28 @@ const path = require('path');
 
 // create posts
 exports.createPost = (req, res) => {
- 
+
     const post = {
         content: req.body.content,
-        multimediaUrl:req.file.path,
+        multimediaUrl: req.file.path,
         username: req.body.username
-       
+
     }
     console.log(post)
     //data validation
     const schema = {
         multimediaUrl: {
             type: 'string',
-            optional: true,
-            max: '200'
+            max: '200',
+            optional: false
         },
         content: {
             type: 'string',
-            optional: false,
             max: '500',
         },
-        username:{
-            type:'string',
-            optional:true,
+        username: {
+            type: 'string',
+            optional: true,
         }
     }
 
@@ -38,7 +37,7 @@ exports.createPost = (req, res) => {
             errors: responceValidation
         })
     }
-    
+
     // save posts to db
     models.posts.create(post).then(result => {
         res.status(201).json({
@@ -51,19 +50,7 @@ exports.createPost = (req, res) => {
         })
     })
 }
-// get a post
-// exports.getPost = (req, res) => {
-//     const id = req.params.id;
-//     models.posts.findByPk(id).then(result => {
-//         res.status(200).json({
-//             result
-//         })
-//     }).catch(error => {
-//         res.status(500).json({
-//             message: 'something went wrong!'
-//         })
-//     })
-// }
+
 // get all posts
 exports.getAllPosts = (req, res) => {
     models.posts.findAll().then(result => {
