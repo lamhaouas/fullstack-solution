@@ -39,11 +39,11 @@ window.location.reload()
             setContent(value);
           }}
           ></input>
-          <label htmlFor='image'>Select image: </label>
+          <label  htmlFor='image'>Select image: </label>
            <input className='text-secondary' type="file" name='file' accept=".jpg,.png" onChange={event => {
             const file = event.target.files[0];
             setFile(file);
-          }}></input>
+          }}/>
           <div className="card-actions">
            <button className="btn btn-primary" type='submit' onClick={upload} >Create</button>
           </div>

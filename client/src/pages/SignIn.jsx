@@ -20,8 +20,6 @@ function SignIn() {
      localStorage.setItem('token' , response.data.token)
      localStorage.setItem('username', response.data.username)
      navigate('/feeds')
-     window.location.reload()
-
     } else{
       
       console.log(response.data.message);
