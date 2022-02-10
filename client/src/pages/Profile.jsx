@@ -8,7 +8,7 @@ return
   const username = localStorage.getItem('username')
   axios.delete(`http://localhost:3001/user/delete/${username}`,{ data: { username: username } })
   localStorage.clear();
-         navigate('/')
+  navigate('/')
 }
 return (
         <div>

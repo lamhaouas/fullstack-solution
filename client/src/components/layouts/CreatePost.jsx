@@ -30,7 +30,7 @@ window.location.reload()
 }
   return <div>
 
-      <div className='card border-2'>
+      <div className='card border-2 bg-neutral'>
         <div className="card-body">
           <label className="card-title">Create a post</label>
           <input type="text" placeholder="Type here" className="textarea m-2 textarea-bordered"

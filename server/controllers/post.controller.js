@@ -61,64 +61,14 @@ exports.getAllPosts = (req, res) => {
         })
     });
 }
-// update a post
-exports.updatePost = (req, res) => {
-    const id = req.params.id;
-    const updatedPost = {
-        multimediaUrl: req.body.file,
-        content: req.body.content,
-    }
-    const userId = 1;
-    //data validation
-    const schema = {
-        multimediaUrl: {
-            type: 'string',
-            optional: false,
-            max: '200'
-        },
-        content: {
-            type: 'string',
-            optional: false,
-            max: '500',
-        }
-    }
-
-    const validation = new Validator();
-    const responceValidation = validation.validate(updatedPost, schema);
-    if (responceValidation !== true) {
-        return res.status(400).json({
-            message: 'Validation failed',
-            errors: responceValidation
-        })
-    }
-    // save to db
-    models.posts.update(updatedPost, {
-        where: {
-            id: id,
-            userId
-        }
-    }).then(result => {
-        res.status(200).json({
-            message: 'Post updated successfully',
-            post: updatedPost
-        })
-    }).catch(error => {
-        res.status(500).json({
-            message: 'something went wrong!'
-        })
-
-    })
-}
 
 // delete a post
 exports.deletePost = (req, res) => {
-    const id = req.params.id;
-    const userId = 1;
-
+    const username = req.body.username
+if(username = localStorage.getItem('username')){
     models.posts.destroy({
         where: {
-            id: id,
-            userId: userId
+          username : req.body.username
         }
     }).then(result => {
         res.status(200).json({
@@ -130,4 +80,4 @@ exports.deletePost = (req, res) => {
             message: 'something went wrong!'
         })
     })
-}
+}} 
