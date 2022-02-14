@@ -5,6 +5,8 @@ const multer = require('../files-upload');
 
 router.post('/',multer, userController.createPost);
 router.get('/', userController.getAllPosts);
-router.delete('/delete/:username',  userController.deletePost);
+router.delete('/delete',  userController.deletePost);
+router.post('/like', userController.likePost);
+
 
 module.exports = router;
