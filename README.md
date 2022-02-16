@@ -11,5 +11,5 @@
 Nodejs, nodemon
 ## Installation
 * -1: Clone the repository
-* -2: from the server folder run : <br/>`npm install` and `nodemon derver`
+* -2: from the server folder run : <br/>`npm install` <br/>and<br/> `nodemon derver`
 * -3: from the client folder run : <br/> `npm start`
