@@ -26,19 +26,15 @@ const username = localStorage.getItem('username')
 //   })
 // }
 //delete a post
-const deletePost = (id) =>{
+const deletePost = (id, multimediaUrl) =>{
   if(username){
   if (!window.confirm(`Are you sure you want to delete this post ?`)) 
 return
-const config = {
-  headers : {
-    "Authorization": "Token " 
-}
-}
-console.log(config)
-
-  axios.delete('http://localhost:3001/posts/delete',{ data:{ id : id }}, config)
-  window.location.reload()
+const token =localStorage.getItem('token')
+console.log(token)
+const headers = { Authorization: `Bearer ${token}` };
+  axios.delete('http://localhost:3001/posts/delete',{ data:{  id, multimediaUrl }}, { headers })
+  // window.location.reload()
 } else {
  if (!window.confirm(`You can't delete this post`)) 
 return }
@@ -52,8 +48,8 @@ return }
             </figure>
             <div  className="card-body">
               <div className='flex justify-between'>
-                <button className='delete-button' onClick={()=>{deletePost(res.id)}} aria-label='delete button'><FaTrashAlt/></button>
-                <h2 id='user' className="card-title text-white">{res.username}</h2> 
+                <button className='delete-button' onClick={()=>{deletePost(res.id,res.multimediaUrl)}} aria-label='delete button'><FaTrashAlt/></button>
+                <h2 id='user' className="card-title text-black">By: @{res.username}</h2> 
               </div>
               <p className='m-5'>{res.content}</p> 
               <div className=' card-actions '>

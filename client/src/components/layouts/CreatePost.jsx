@@ -41,7 +41,7 @@ window.location.reload()
           ></input>
           </label>
           <label  htmlFor='image'>
-           <input className='text-secondary' type="file" name='file' accept=".jpg,.png" onChange={event => {
+           <input className='text-secondary' type="file" name='file' accept=".jpg,.png,.gif" onChange={event => {
             const file = event.target.files[0];
             setFile(file);
           }} />

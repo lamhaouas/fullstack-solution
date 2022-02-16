@@ -67,29 +67,33 @@ exports.getAllPosts = (req, res) => {
 
 // delete a post
 exports.deletePost = (req, res) => {
-    const post = {
-        
-        id: req.body.id
-
-    }
-    console.log(post)
-    models.posts.destroy({
+  
+   
+    models.posts.findAll({
         where: {
-          
             id: req.body.id
         }
     }).then(result => {
-        res.status(200).json({
-            message: 'post deleted successfully'
+            models.posts.destroy({
+                where: {
+                    id: req.body.id,
+                }
+            })
 
-        })
-    }).catch(error => {
-        res.status(500).json({
+const filename = req.body.multimediaUrl.split()[0]
+console.log(filename)
+            fs.unlink( filename, () => {
 
-            error,
-            message: 'something went wrong!'
-        })
-    })
+                    res.status(200).json({
+                        message: 'post deleted successfully'
+
+                    })
+                }
+
+            )
+        }
+
+    )
 }
 
 //like a post 
