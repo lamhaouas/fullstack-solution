@@ -8,5 +8,5 @@
 * The back-end is built With: NodeJS, Express, Mysql and Sequelize ORM.
 ## Installation
 * -1: Clone the repository
-* -2: from the server folder run : <br/> <code> nodemon derver <code/>
+* -2: from the server folder run : <br/>  `nodemon derver`
 * -3: from the client folder run : <br/> npm start
