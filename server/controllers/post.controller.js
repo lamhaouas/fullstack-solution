@@ -67,8 +67,8 @@ exports.getAllPosts = (req, res) => {
 
 // delete a post
 exports.deletePost = (req, res) => {
-  
-   
+
+
     models.posts.findAll({
         where: {
             id: req.body.id
@@ -80,9 +80,9 @@ exports.deletePost = (req, res) => {
                 }
             })
 
-const filename = req.body.multimediaUrl.split()[0]
-console.log(filename)
-            fs.unlink( filename, () => {
+            const filename = req.body.multimediaUrl.split()[0]
+            console.log(filename)
+            fs.unlink(filename, () => {
 
                     res.status(200).json({
                         message: 'post deleted successfully'
@@ -98,21 +98,32 @@ console.log(filename)
 
 //like a post 
 exports.likePost = (req, res) => {
-    const like = {
+    const likedPost = {
         username: req.body.username,
         postId: req.body.postId
     }
+    models.likes.findAll({
+        where: {
+            postId: req.body.postId
+        }
+    }).then(result => {
+        console.log(result)
+        if (result == false) {
+            models.likes.create(likedPost).then(result => {
+                res.status(200).json({
+                    message: 'post liked!'
+                })
+            })
 
-    models.likes.create(like).then(result => {
-        res.status(200).json({
-            message: 'post liked'
+        } else {
+            res.status(200).json({
+                message: 'Post already liked!'
+            })
 
-        })
-
-    }).catch(error => {
-        res.status(500).json({
-            error,
-            message: 'something went wrong!'
-        })
+        }
     })
+
+
+
+
 }

@@ -2,15 +2,15 @@ import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { FaTrashAlt } from "react-icons/fa";
 import { FaThumbsUp} from "react-icons/fa";
+import { FaHeart } from "react-icons/fa"
 function Posts() {
      // states
   const [posts, setPosts] = useState([]);
+  const [liked, setLiked] = useState("");
   useEffect(() => {
   axios.get("http://localhost:3001/posts")
   .then(response =>{
-    
-    setPosts(response.data);
-    console.log(response)
+    setPosts(response.data)
   })
   .catch((err)=> console.log(err))
 }, []);
@@ -18,27 +18,31 @@ const url = 'http://localhost:3001/';
 const username = localStorage.getItem('username')
 
 //like post
-// const likePost = (id) =>{
-  
-//   axios.post('http://localhost:3001/posts/like', { username: username , postId : id})
-//   .then((res)=>{
-//     console.log('post liked')
-//   })
-// }
+  function likePost(id) {
+    axios.post('http://localhost:3001/posts/like', { username: username, postId: id })
+    .then(response => {
+      console.log(response.data.message)
+    
+        setLiked(response.data.message);
+   
+      }).catch(error =>{
+        
+      })
+  }
 //delete a post
-const deletePost = (id, multimediaUrl) =>{
-  if(username){
-  if (!window.confirm(`Are you sure you want to delete this post ?`)) 
-return
-const token =localStorage.getItem('token')
-console.log(token)
-const headers = { Authorization: `Bearer ${token}` };
-  axios.delete('http://localhost:3001/posts/delete',{ data:{  id, multimediaUrl }}, { headers })
-  // window.location.reload()
-} else {
- if (!window.confirm(`You can't delete this post`)) 
-return }
-}
+  function deletePost(id, multimediaUrl,username) {
+    if (username = localStorage.getItem('username')) {
+      if (!window.confirm(`Are you sure you want to delete this post ?`))
+        return;
+      const token = localStorage.getItem('token');
+      const headers = { Authorization: `Bearer ${token}` };
+      axios.delete('http://localhost:3001/posts/delete', { data: { id, multimediaUrl } }, { headers });
+      window.location.reload();
+    } else {
+      if (!window.confirm(`You can't delete this post`))
+        return;
+    }
+  }
   return <div>  
        {posts.reverse().map((res, index)=>
         <div key={index}>
@@ -48,17 +52,21 @@ return }
             </figure>
             <div  className="card-body">
               <div className='flex justify-between'>
-                <button className='delete-button' onClick={()=>{deletePost(res.id,res.multimediaUrl)}} aria-label='delete button'><FaTrashAlt/></button>
+                <button className='delete-button' onClick={()=>{deletePost(res.id,res.multimediaUrl, res.username)}} aria-label='delete button'><FaTrashAlt/></button>
                 <h2 id='user' className="card-title text-black">By: @{res.username}</h2> 
               </div>
               <p className='m-5'>{res.content}</p> 
               <div className=' card-actions '>
-                 
-                 <div className='btn  m-5 ' id='like-button'>
-                    <FaThumbsUp />
-                    {res.likes}
+                {!liked ? (
+                  <div className='btn  m-5 ' onClick={()=>{likePost(res.id)}}>
+                  <FaThumbsUp />
+                  </div>
+
+                ) : (
+                  <div className='btn  m-5 '>
+                    <FaHeart />
                  </div>
-                 
+                ) }
               </div> 
             </div>
           </div>

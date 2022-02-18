@@ -14,13 +14,14 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   posts.init({
+    content: DataTypes.STRING,
     multimediaUrl: DataTypes.STRING,
-    content: DataTypes.TEXT,
     username: DataTypes.STRING,
-    likes:DataTypes.INTEGER
+    likes: DataTypes.INTEGER,
+    status: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'posts',
-  },);
+  });
   return posts;
 };

@@ -14,10 +14,7 @@ module.exports = {
       postId: {
         type: Sequelize.INTEGER
       },
-      likesCount: {
-        type: Sequelize.INTEGER
-      },
-   
+    
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
