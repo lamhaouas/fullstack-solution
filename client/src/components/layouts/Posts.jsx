@@ -30,23 +30,34 @@ const username = localStorage.getItem('username')
       })
   }
 //delete a post
-  function deletePost(id, multimediaUrl,username) {
-    if (username = localStorage.getItem('username')) {
-      if (!window.confirm(`Are you sure you want to delete this post ?`))
+  const  deletePost = async (id, multimediaUrl,username) => {
+    if (!window.confirm(`Are you sure you want to delete this post ?`))
         return;
-      const token = localStorage.getItem('token');
-      const headers = { Authorization: `Bearer ${token}` };
-      axios.delete('http://localhost:3001/posts/delete', { data: { id, multimediaUrl } }, { headers });
-      window.location.reload();
-    } else {
-      if (!window.confirm(`You can't delete this post`))
-        return;
-    }
-  }
+     const data = {
+       id: id,
+       multimediaUrl : multimediaUrl,
+       username: username
+     }
+     const config = {
+      headers:{
+        
+        "Authorization":JSON.parse(window.localStorage.getItem('token')),
+        
+      },
+    };
+      try{
+        await  axios.delete('http://localhost:3001/posts/delete',{data} , config)
+        
+      } catch(err){
+        console.log(err)
+
+      } 
+     // window.location.reload();
+    } 
   return <div>  
        {posts.reverse().map((res, index)=>
         <div key={index}>
-          <div className="card card-bordered shadow-sm bg-primary m-2 text-accent-content">
+          <div className="card card-bordered shadow-sm bg-primary m-2 w-96 text-accent-content">
             <figure className="px-10 pt-10 ">
                 <img src={url + res.multimediaUrl} onError={(event) => event.target.style.display = 'none'}  alt="post image"  className='rounded-xl'/>
             </figure>

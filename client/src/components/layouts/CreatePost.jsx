@@ -13,14 +13,17 @@ const upload = async (e) => {
   formData.append('multimediaUrl', file);
   formData.append('username', window.localStorage.getItem('username'));
   formData.append('content', content);
+ 
   const config = {
     headers:{
-      'content-type': 'multipart/form-data',
+    
+      "Authorization": JSON.parse(window.localStorage.getItem('token')),
+      'Content-Type': 'application/json'
     },
   };
 try {
-const res = await axios.post('http://localhost:3001/posts',formData, config);
-   console.log(res);
+await axios.post('http://localhost:3001/posts',formData, config);
+   
  
  } catch (err) {
  console.log(err)

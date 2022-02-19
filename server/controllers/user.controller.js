@@ -97,7 +97,7 @@ exports.logIn = (req, res) => {
                 signIn: false
             });
         } else {
-            console.log
+        
             bcrypt.compare(req.body.password, result.password, function (err, result) {
                 if (result) {
                     //assign a token

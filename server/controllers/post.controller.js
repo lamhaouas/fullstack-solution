@@ -67,16 +67,18 @@ exports.getAllPosts = (req, res) => {
 
 // delete a post
 exports.deletePost = (req, res) => {
-
+    console.log(req.body.username)
 
     models.posts.findAll({
         where: {
-            id: req.body.id
+            id: req.body.id,
+            username: req.body.username
         }
     }).then(result => {
             models.posts.destroy({
                 where: {
                     id: req.body.id,
+                    username: req.body.username
                 }
             })
 
@@ -93,7 +95,12 @@ exports.deletePost = (req, res) => {
             )
         }
 
-    )
+    ).catch(err => {
+        res.status(500).json({
+            message: 'something went wrong!'
+
+        })
+    })
 }
 
 //like a post 

@@ -16,8 +16,8 @@ function SignIn() {
     }).then((response) => {
     if(response.data.signIn){
    
-     localStorage.setItem('signIn', true);
-     localStorage.setItem('token' , response.data.token)
+    localStorage.setItem('signIn', true);
+    localStorage.setItem('token' , JSON.stringify(response.data.token))
      localStorage.setItem('username', response.data.username)
      navigate('/feeds')
     } else{
