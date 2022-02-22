@@ -3,6 +3,7 @@ import axios from 'axios';
 
 
 function Create () {
+
     // states
 const[content, setContent] = useState("");
 const[file, setFile] = useState([])
@@ -17,19 +18,18 @@ const upload = async (e) => {
   const config = {
     headers:{
     
-      "Authorization": JSON.parse(window.localStorage.getItem('token')),
+      'Authorization': JSON.parse(window.localStorage.getItem('token')),
       'Content-Type': 'application/json'
     },
   };
-try {
-await axios.post('http://localhost:3001/posts',formData, config);
-   
- 
- } catch (err) {
- console.log(err)
-
-}
-window.location.reload()
+ try {
+   await axios.post('http://localhost:3001/posts',formData, config);
+   }
+  catch (err)
+     {
+    console.log(err)
+  }
+  window.location.reload()
 }
   return <div>
 

@@ -67,18 +67,19 @@ exports.getAllPosts = (req, res) => {
 
 // delete a post
 exports.deletePost = (req, res) => {
-    console.log(req.body.username)
 
+    console.log(req.body)
     models.posts.findAll({
         where: {
             id: req.body.id,
-            username: req.body.username
+
         }
+
     }).then(result => {
             models.posts.destroy({
                 where: {
                     id: req.body.id,
-                    username: req.body.username
+
                 }
             })
 
@@ -96,10 +97,13 @@ exports.deletePost = (req, res) => {
         }
 
     ).catch(err => {
-        res.status(500).json({
-            message: 'something went wrong!'
+        res.status(500).json(
 
-        })
+            {
+                err,
+                message: 'something went wrong!'
+
+            })
     })
 }
 
@@ -109,28 +113,37 @@ exports.likePost = (req, res) => {
         username: req.body.username,
         postId: req.body.postId
     }
+    console.log(likedPost)
     models.likes.findAll({
-        where: {
-            postId: req.body.postId
-        }
-    }).then(result => {
-        console.log(result)
-        if (result == false) {
-            models.likes.create(likedPost).then(result => {
-                res.status(200).json({
-                    message: 'post liked!'
+            where: {
+                postId: req.body.postId
+            }
+        })
+        .then(result => {
+
+            if (result == false) {
+                models.likes.create(likedPost).then(result => {
+                    res.status(200).json({
+                        message: 'post liked!'
+                    })
+
                 })
-            })
-
-        } else {
-            res.status(200).json({
-                message: 'Post already liked!'
-            })
-
-        }
-    })
-
+                models.posts.increment('likes', {
+                    by: 1,
+                    where: {
+                        id: req.body.postId,
+                    }
+                }).then(res=>{
+                    console.log('inserted')
+                })
 
 
+            } else {
+                res.status(200).json({
+                    message: 'Post already liked!'
+                })
 
+            }
+
+        })
 }
