@@ -9,4 +9,7 @@ router.delete('/delete/:id', verifyToken, userController.deletePost);
 router.post('/like/:id', userController.likePost);
 
 
+router.post('/unread/:id', userController.seenPost);
+
+
 module.exports = router;

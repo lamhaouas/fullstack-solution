@@ -1,20 +1,23 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import { FaTrashAlt } from "react-icons/fa";
-import { FaHeart } from "react-icons/fa"
+import { FaHeart } from "react-icons/fa";
+
+
 function Posts() {
-     // states
+
   const [posts, setPosts] = useState([]);
   useEffect(() => {
-  axios.get("http://localhost:3001/posts")
-  .then(response =>{
+    axios.get("http://localhost:3001/posts")
+    .then(response =>{
     setPosts(response.data)
-  })
-  .catch((err)=> console.log(err))
-}, []);
-const url = 'http://localhost:3001/';
+    })
+    .catch((err)=> console.log(err)) }, []);
+
+  const url = 'http://localhost:3001/';
 
 //like post
+
   function likePost(id,username) {
     const data = {
       username: username,
@@ -24,7 +27,7 @@ const url = 'http://localhost:3001/';
     .then(response => {
       console.log(response.data.message)
     })
-  .catch(error =>{
+    .catch(error =>{
       console.log(error)})
   }
 
@@ -50,12 +53,30 @@ const url = 'http://localhost:3001/';
       .then(res=>{console.log(res.data.message)})
       .catch(err=>{ console.log(err)})
    
-    // window.location.reload();
+    window.location.reload();
     } 
-  return <div>  
+    // read posts
+    function readPost(id,username) {
+      const data = {
+        username: username,
+        postId: id
+      }
+    axios.post('http://localhost:3001/posts/unread/:'+ `${id}`, data )
+      .then(response => {
+        console.log(response)
+      })
+    .catch(error =>{
+        console.log(error)})
+
+    }
+  return <div> 
+   
        {posts.reverse().map((res, index)=>
+       
         <div key={index}>
-          <div className="card card-bordered shadow-sm bg-primary m-2 w-96 text-accent-content">
+          <div  onClick={()=>{readPost(res.id, res.username)}} className="card card-bordered shadow-sm  m-2 w-96 text-accent-content">
+           
+         
             <figure className="px-10 pt-10 ">
                 <img src={url + res.multimediaUrl} onError={(event) => event.target.style.display = 'none'}  alt="post image"  className='rounded-xl'/>
             </figure>
@@ -66,7 +87,8 @@ const url = 'http://localhost:3001/';
               </div>
               <p className='m-5'>{res.content}</p> 
               <div className=' card-actions '>
-                
+                 <div>  {res.status}
+                 </div>
                   <div className='btn  m-5 ' onClick={()=>{likePost(res.id, res.username)}}>
                   <FaHeart />
                   

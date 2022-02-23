@@ -82,6 +82,12 @@ exports.deletePost = (req, res) => {
 
                 }
             })
+            models.likes.destroy({
+                where: {
+                    postId: req.body.id,
+
+                }
+            })
 
             const filename = req.body.multimediaUrl.split()[0]
             console.log(filename)
@@ -133,7 +139,7 @@ exports.likePost = (req, res) => {
                     where: {
                         id: req.body.postId,
                     }
-                }).then(res=>{
+                }).then(res => {
                     console.log('inserted')
                 })
 
@@ -145,5 +151,41 @@ exports.likePost = (req, res) => {
 
             }
 
+        })
+}
+
+//seen posts 
+exports.seenPost = (req, res) => {
+    const seenPost = {
+        username: req.body.username,
+        postId: req.body.postId,
+
+    }
+
+    models.unread.findAll({
+            where: {
+                postId: req.body.postId,
+                username: req.body.username
+            }
+        })
+        .then(result => {
+
+            if (result == false) {
+                models.unread.create(seenPost).then(result => {
+                    res.status(200).json({
+                        message: 'Read!'
+                    })
+
+                })
+                models.posts.update({
+                    status: 'Read!'
+                }, {
+                    where: {
+                        id: req.body.postId,
+                        username: req.body.username
+                    }
+                })
+
+            }
         })
 }

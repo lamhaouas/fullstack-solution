@@ -2,6 +2,7 @@ import Create from './CreatePost';
 import Posts from './Posts';
 import { useState, useEffect } from 'react';
 
+
 import { useNavigate } from 'react-router-dom'
 import SignIn from '../../pages/SignIn';
 function Feeds() {
@@ -18,6 +19,7 @@ navigate('/feeds')
   <>
     {signIn ? (
        <div>
+        
          <Create/>
          <Posts/>
         </div>
