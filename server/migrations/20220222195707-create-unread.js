@@ -1,4 +1,7 @@
 'use strict';
+
+const { ForeignKeyConstraintError } = require("sequelize/dist");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('unreads', {
@@ -9,12 +12,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       postId: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        ForeignKey: true
       },
       username: {
         type: Sequelize.STRING
       },
-      unread: {
+      seen: {
         type: Sequelize.BOOLEAN
       },
       createdAt: {

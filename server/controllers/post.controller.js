@@ -1,6 +1,10 @@
 const Validator = require('fastest-validator');
 const models = require('../models');
-const fs = require('fs')
+const fs = require('fs');
+const posts = require('../models/posts');
+const {
+    Op
+} = require('@sequelize/core');
 // create posts
 exports.createPost = (req, res) => {
 
@@ -72,7 +76,7 @@ exports.deletePost = (req, res) => {
     models.posts.findAll({
         where: {
             id: req.body.id,
-
+            username: req.body.username
         }
 
     }).then(result => {
@@ -122,7 +126,8 @@ exports.likePost = (req, res) => {
     console.log(likedPost)
     models.likes.findAll({
             where: {
-                postId: req.body.postId
+                postId: req.body.postId,
+                username: req.body.username
             }
         })
         .then(result => {
@@ -132,15 +137,15 @@ exports.likePost = (req, res) => {
                     res.status(200).json({
                         message: 'post liked!'
                     })
+                    models.posts.increment('likes', {
+                        by: 1,
+                        where: {
+                            id: req.body.postId,
+                        }
+                    }).then(res => {
+                        console.log('inserted')
+                    })
 
-                })
-                models.posts.increment('likes', {
-                    by: 1,
-                    where: {
-                        id: req.body.postId,
-                    }
-                }).then(res => {
-                    console.log('inserted')
                 })
 
 
@@ -150,8 +155,9 @@ exports.likePost = (req, res) => {
                 })
 
             }
-
         })
+
+
 }
 
 //seen posts 
@@ -161,31 +167,42 @@ exports.seenPost = (req, res) => {
         postId: req.body.postId,
 
     }
-
     models.unread.findAll({
-            where: {
-                postId: req.body.postId,
-                username: req.body.username
-            }
+        where: {
+            postId: req.body.postId,
+            username: req.body.username
+        }
+    }).then(result => {
+        if (result == false) {
+            models.unread.create(seenPost).then(result => {
+                res.status(200).json({
+                    message: 'Seen post'
+                })
+            })
+        }
+    }).catch(err => {
+        console.log(err)
+    })
+}
+// get unseen posts
+exports.unSeenPosts = (req, res) => {
+
+    models.posts.findAll({
+
+         
+        
         })
+
         .then(result => {
 
-            if (result == false) {
-                models.unread.create(seenPost).then(result => {
-                    res.status(200).json({
-                        message: 'Read!'
-                    })
+            console.log(result)
+            res.status(200).json(result)
+        }).catch(error => {
+            console.log(error)
+            res.status(500).json({
+                error,
 
-                })
-                models.posts.update({
-                    status: 'Read!'
-                }, {
-                    where: {
-                        id: req.body.postId,
-                        username: req.body.username
-                    }
-                })
-
-            }
-        })
+                message: 'something went wrong!'
+            })
+        });
 }

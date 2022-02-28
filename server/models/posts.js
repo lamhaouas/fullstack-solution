@@ -1,7 +1,9 @@
 'use strict';
+
 const {
   Model
 } = require('sequelize');
+const unread = require('./unread');
 module.exports = (sequelize, DataTypes) => {
   class posts extends Model {
     /**
@@ -11,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      
     }
   };
   posts.init({
@@ -18,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     multimediaUrl: DataTypes.STRING,
     username: DataTypes.STRING,
     likes: DataTypes.INTEGER,
-    status: DataTypes.STRING
+
   }, {
     sequelize,
     modelName: 'posts',

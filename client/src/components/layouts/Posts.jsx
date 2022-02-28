@@ -12,20 +12,23 @@ function Posts() {
     .then(response =>{
     setPosts(response.data)
     })
-    .catch((err)=> console.log(err)) }, []);
+    .catch((err)=> console.log(err)) }, [posts]);
 
   const url = 'http://localhost:3001/';
 
 //like post
 
-  function likePost(id,username) {
+  function likePost(id) {
     const data = {
-      username: username,
+      username: localStorage.getItem('username'),
       postId: id
     }
-    axios.post('http://localhost:3001/posts/like/:'+ `${id}`, data )
+    axios.post('http://localhost:3001/posts/like/:'+ `${id}`, data)
+    
     .then(response => {
       console.log(response.data.message)
+      
+      
     })
     .catch(error =>{
       console.log(error)})
@@ -56,12 +59,12 @@ function Posts() {
     window.location.reload();
     } 
     // read posts
-    function readPost(id,username) {
+    function readPost(id) {
       const data = {
-        username: username,
+        username: localStorage.getItem('username'),
         postId: id
       }
-    axios.post('http://localhost:3001/posts/unread/:'+ `${id}`, data )
+    axios.post('http://localhost:3001/posts/:'+ `${id}`, data )
       .then(response => {
         console.log(response)
       })
@@ -87,7 +90,7 @@ function Posts() {
               </div>
               <p className='m-5'>{res.content}</p> 
               <div className=' card-actions '>
-                 <div>  {res.status}
+                 <div>  
                  </div>
                   <div className='btn  m-5 ' onClick={()=>{likePost(res.id, res.username)}}>
                   <FaHeart />
