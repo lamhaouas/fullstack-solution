@@ -13,7 +13,6 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      
     }
   };
   posts.init({
@@ -21,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     multimediaUrl: DataTypes.STRING,
     username: DataTypes.STRING,
     likes: DataTypes.INTEGER,
+    status: DataTypes.INTEGER
 
   }, {
     sequelize,

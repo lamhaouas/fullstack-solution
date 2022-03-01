@@ -5,14 +5,21 @@ import { FaHeart } from "react-icons/fa";
 
 
 function Posts() {
-
+  
   const [posts, setPosts] = useState([]);
+  const [likes,setLikes] = useState(0)
+  const [seenposts, setSeenPosts] = useState([]);
+ 
   useEffect(() => {
     axios.get("http://localhost:3001/posts")
     .then(response =>{
+    
     setPosts(response.data)
+    
     })
-    .catch((err)=> console.log(err)) }, [posts]);
+    .catch((err)=> console.log(err)) },[likes])
+  
+  
 
   const url = 'http://localhost:3001/';
 
@@ -27,18 +34,21 @@ function Posts() {
     
     .then(response => {
       console.log(response.data.message)
-      
+      setLikes(response)
       
     })
     .catch(error =>{
       console.log(error)})
+      
   }
 
 
+  
+  
 //delete a post
-  function  deletePost(id, multimediaUrl,username) {
-    if (!window.confirm(`Are you sure you want to delete this post ?`))
-        return;
+  function  deletePost(id,multimediaUrl) {
+    // if (!window.confirm(`Are you sure you want to delete this post ?`))
+    //     return;
    
      const config = {
       headers:{
@@ -48,17 +58,20 @@ function Posts() {
       },
       data:{
         id: id,
-        multimediaUrl : multimediaUrl,
-        username: username
+        username: localStorage.getItem('username'),
+        multimediaUrl: multimediaUrl,
       }
     };
       axios.delete('http://localhost:3001/posts/delete/:'+ `${id}` ,config)
-      .then(res=>{console.log(res.data.message)})
+      .then(res=>{console.log(res.data.message)
+       window.alert(res.data.message)
+      })
       .catch(err=>{ console.log(err)})
+      
+      window.location.reload()
    
-    window.location.reload();
     } 
-    // read posts
+    // seen posts
     function readPost(id) {
       const data = {
         username: localStorage.getItem('username'),
@@ -72,17 +85,19 @@ function Posts() {
         console.log(error)})
 
     }
+    // useen posts
+    
+   
   return <div> 
    
        {posts.reverse().map((res, index)=>
-       
+  
         <div key={index}>
           <div  onClick={()=>{readPost(res.id, res.username)}} className="card card-bordered shadow-sm  m-2 w-96 text-accent-content">
-           
-         
             <figure className="px-10 pt-10 ">
                 <img src={url + res.multimediaUrl} onError={(event) => event.target.style.display = 'none'}  alt="post image"  className='rounded-xl'/>
             </figure>
+            
             <div  className="card-body">
               <div className='flex justify-between'>
                 <button className='delete-button' onClick={()=>{deletePost(res.id,res.multimediaUrl)}} aria-label='delete button'><FaTrashAlt/></button>
@@ -98,7 +113,6 @@ function Posts() {
                   {res.likes}
                   </div>
 
-              
               </div> 
             </div>
           </div>
@@ -107,4 +121,4 @@ function Posts() {
   </div>;
 }
 
-export default Posts;
+export default Posts 

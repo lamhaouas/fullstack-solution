@@ -5,7 +5,7 @@ import { useState, useEffect } from 'react';
 
 import { useNavigate } from 'react-router-dom'
 import SignIn from '../../pages/SignIn';
-import Unread from './Unread';
+
 function Feeds() {
   let navigate = useNavigate()
 
@@ -21,8 +21,7 @@ navigate('/feeds')
     {signIn ? (
        <div>
            <div >
-             <Unread/>
-             
+            
 
              <Create/>
           

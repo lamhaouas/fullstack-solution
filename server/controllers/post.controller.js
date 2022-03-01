@@ -56,7 +56,6 @@ exports.createPost = (req, res) => {
         })
     })
 }
-
 // get all posts
 exports.getAllPosts = (req, res) => {
     models.posts.findAll().then(result => {
@@ -72,49 +71,35 @@ exports.getAllPosts = (req, res) => {
 // delete a post
 exports.deletePost = (req, res) => {
 
-    console.log(req.body)
-    models.posts.findAll({
+    models.posts.destroy({
         where: {
             id: req.body.id,
             username: req.body.username
         }
-
     }).then(result => {
-            models.posts.destroy({
-                where: {
-                    id: req.body.id,
-
-                }
-            })
-            models.likes.destroy({
-                where: {
-                    postId: req.body.id,
-
-                }
-            })
-
+        if (result ) {
             const filename = req.body.multimediaUrl.split()[0]
-            console.log(filename)
+            console.log(req.body.multimediaUrl)
             fs.unlink(filename, () => {
 
-                    res.status(200).json({
-                        message: 'post deleted successfully'
+                res.status(200).json({
+                    message: 'post deleted successfully'
 
-                    })
-                }
-
-            )
+                })
+            })
         }
-
-    ).catch(err => {
-        res.status(500).json(
-
-            {
-                err,
-                message: 'something went wrong!'
+        if (result === null) {
+            res.status(200).json({
+                message: 'You can not delete this post'
 
             })
+        }
+    }).catch(err => {
+        console.log(err)
     })
+
+
+
 }
 
 //like a post 
@@ -187,16 +172,16 @@ exports.seenPost = (req, res) => {
 // get unseen posts
 exports.unSeenPosts = (req, res) => {
 
-    models.posts.findAll({
+    models.unread.findAll({
+       
 
-         
-        
+
         })
 
         .then(result => {
-
-            console.log(result)
             res.status(200).json(result)
+
+
         }).catch(error => {
             console.log(error)
             res.status(500).json({

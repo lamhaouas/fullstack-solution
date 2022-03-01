@@ -1,4 +1,7 @@
 'use strict';
+
+const { sequelize } = require("../models");
+
 module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable('posts', {
@@ -20,7 +23,9 @@ module.exports = {
       likes: {
         type: Sequelize.INTEGER
       },
-     
+     status:{
+       type: sequelize.INTEGER
+     },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
