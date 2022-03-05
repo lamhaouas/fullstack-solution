@@ -11,7 +11,7 @@
 Nodejs, Nodemon, MySQL
 ## Installation
 * 1 Clone the repository : <br/> `git clone https://github.com/lamhaouas/fullstack-solution.git`
-* 2 from the server folder run : <br/>`npm install` <br/>and<br/> `nodemon derver`
+* 2 from the server folder create a folder named uploads and run : <br/>`npm install` <br/>and<br/> `nodemon derver`
 * 3 from the client folder run : <br/> `npm start`
 ### Data base installation 
 After creating a local MySQL connection update your credential in the `config/config.json` file then<br/> Run <br/> `npx sequelize-cli db:create` <br/>`npx sequelize-cli db:migrate`
