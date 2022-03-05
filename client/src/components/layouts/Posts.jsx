@@ -8,8 +8,8 @@ function Posts() {
   
   const [posts, setPosts] = useState([]);
   const [likes,setLikes] = useState(0)
-  const [seenposts, setSeenPosts] = useState([]);
- 
+  const [seenposts, setSeenPosts] = useState(null);
+  const [seenresult, setSeenResult] = useState(null);
   useEffect(() => {
     axios.get("http://localhost:3001/posts")
     .then(response =>{
@@ -17,7 +17,7 @@ function Posts() {
     setPosts(response.data)
     
     })
-    .catch((err)=> console.log(err)) },[likes])
+    .catch((err)=> console.log(err)) },[likes, seenposts])
   
   
 
@@ -86,18 +86,42 @@ function Posts() {
 
     }
     // useen posts
-    
+    function unseenPost(id){
+      
+      axios.get('http://localhost:3001/posts/unseen',{ params:{
+        username: localStorage.getItem('username'),
+        postId: id
+      }})
+      .then(response => {
+        console.log(response.data.message)
+        setSeenPosts(response.data.message)
+      })
+    .catch(error =>{
+        console.log(error)})
+    }
    
   return <div> 
-   
+      <input type="checkbox" id="my-modal" class="modal-toggle "/>
+<div class="modal ">
+  <div class="modal-box bg-primary">{seenposts? (<h3 class="font-bold text-lg">{seenposts}</h3>):(
+    <h3 class="font-bold text-lg">No</h3>
+  )}
+    
+    <div class="modal-action">
+      <label for="my-modal" class="btn">Ok</label>
+    </div>
+  </div>
+</div>
        {posts.reverse().map((res, index)=>
   
-        <div key={index}>
-          <div  onClick={()=>{readPost(res.id, res.username)}} className="card card-bordered shadow-sm  m-2 w-96 text-accent-content">
+        <div key={index} >
+          <div onClick={()=>{readPost(res.id, res.username)}} className="card card-bordered shadow-sm  m-2 w-96 text-accent-content">
             <figure className="px-10 pt-10 ">
-                <img src={url + res.multimediaUrl} onError={(event) => event.target.style.display = 'none'}  alt="post image"  className='rounded-xl'/>
+                <img onMouseOver={()=>{unseenPost(res.id)}} src={url + res.multimediaUrl} onError={(event) => event.target.style.display = 'none'}  alt="post image"  className='rounded-xl'/>
             </figure>
-            
+            <label for="my-modal" class="btn modal-button"> Did i see this post?</label>
+
+           
             <div  className="card-body">
               <div className='flex justify-between'>
                 <button className='delete-button' onClick={()=>{deletePost(res.id,res.multimediaUrl)}} aria-label='delete button'><FaTrashAlt/></button>
@@ -117,7 +141,9 @@ function Posts() {
             </div>
           </div>
         </div>
+        
         )}
+        
   </div>;
 }
 

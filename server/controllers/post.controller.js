@@ -77,7 +77,7 @@ exports.deletePost = (req, res) => {
             username: req.body.username
         }
     }).then(result => {
-        if (result ) {
+        if (result) {
             const filename = req.body.multimediaUrl.split()[0]
             console.log(req.body.multimediaUrl)
             fs.unlink(filename, () => {
@@ -153,10 +153,7 @@ exports.seenPost = (req, res) => {
 
     }
     models.unread.findAll({
-        where: {
-            postId: req.body.postId,
-            username: req.body.username
-        }
+        where: seenPost
     }).then(result => {
         if (result == false) {
             models.unread.create(seenPost).then(result => {
@@ -172,14 +169,24 @@ exports.seenPost = (req, res) => {
 // get unseen posts
 exports.unSeenPosts = (req, res) => {
 
-    models.unread.findAll({
-       
 
+    models.unread.findAll({
+
+            where: {
+                postId: req.query.postId,
+                username: req.query.username
+            }
 
         })
 
         .then(result => {
-            res.status(200).json(result)
+            console.log('data returned from unread.findAll: ', result)
+            if (result.length > 0) {
+                res.status(200).json({
+                    result,
+                    message: 'Already seen'
+                })
+            }
 
 
         }).catch(error => {
