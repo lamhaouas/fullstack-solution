@@ -9,9 +9,4 @@ router.delete('/delete/:id', verifyToken, userController.deletePost);
 router.post('/like/:id', userController.likePost);
 
 
-router.post('/:id', userController.seenPost);
-router.get('/unseen', userController.unSeenPosts);
-
-
-
 module.exports = router;
